@@ -124,4 +124,3 @@ print "Zip to Markdown is running privately on this Mac."
 print "Close this window or press Control-C to stop it."
 open "http://127.0.0.1:$PORT"
 wait "$SERVER_PID" || true
-

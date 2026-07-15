@@ -72,19 +72,24 @@ ZIP_TO_MARKDOWN_PYTHON=/path/to/python3.12 ./Start\ App.command
 
 ## Troubleshooting
 
-**macOS says the developer cannot be verified**  
+**macOS says the developer cannot be verified**
+
 Control-click **Start App.command**, choose **Open**, then confirm **Open**. This approval is normally needed only once.
 
-**The launcher says Python is missing**  
+**The launcher says Python is missing**
+
 Install Python 3.12 from python.org, close the terminal window, and double-click the launcher again. Python 3.14 is not currently used because the pinned conversion stack targets 3.10–3.13.
 
-**Installation fails on first launch**  
+**Installation fails on first launch**
+
 Check the internet connection and available disk space, then run the launcher again. A partial installation is safely resumed or replaced.
 
-**The page does not open**  
+**The page does not open**
+
 Leave the launcher window open and visit the `http://127.0.0.1:…` address shown there. If another copy is open, close both launcher windows and start once more.
 
-**A file did not convert**  
+**A file did not convert**
+
 Open `conversion-report.md` inside the downloaded result. Other successful Markdown files should still be present.
 
 ## Development
@@ -101,4 +106,3 @@ python3.12 -m venv .venv
 ```
 
 The app is MIT licensed. See [LICENSE](LICENSE).
-
