@@ -171,8 +171,12 @@ async function pollJob() {
     const response = await fetch(`/api/jobs/${encodeURIComponent(activeJobId)}`, {
       headers: { Accept: "application/json" },
     });
+    if (response.status === 404) {
+      renderFailure("This conversion has expired or the local app was restarted. Choose Retry to begin again.");
+      return;
+    }
     if (!response.ok) {
-      throw new Error(response.status === 404 ? "This conversion has expired." : "Status unavailable.");
+      throw new Error("Status unavailable.");
     }
     const job = await response.json();
     pollFailures = 0;

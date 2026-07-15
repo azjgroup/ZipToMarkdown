@@ -1,3 +1,4 @@
+import base64
 import socket
 import threading
 import time
@@ -111,6 +112,39 @@ def test_browser_completes_downloads_and_deletes_job(
     expect(browser_page.locator("#ready-panel")).to_be_visible()
 
 
+def test_browser_accepts_a_dropped_zip(
+    browser_page: Page,
+    live_server: str,
+    tmp_path: Path,
+) -> None:
+    source = write_browser_zip(tmp_path / "dropped.zip")
+    encoded = base64.b64encode(source.read_bytes()).decode("ascii")
+    browser_page.goto(live_server)
+
+    browser_page.evaluate(
+        """encoded => {
+            const bytes = Uint8Array.from(atob(encoded), character => character.charCodeAt(0));
+            const transfer = new DataTransfer();
+            transfer.items.add(new File([bytes], "dropped.zip", { type: "application/zip" }));
+            const dropZone = document.getElementById("drop-zone");
+            dropZone.dispatchEvent(new DragEvent("dragover", {
+                bubbles: true,
+                cancelable: true,
+                dataTransfer: transfer,
+            }));
+            dropZone.dispatchEvent(new DragEvent("drop", {
+                bubbles: true,
+                cancelable: true,
+                dataTransfer: transfer,
+            }));
+        }""",
+        encoded,
+    )
+
+    expect(browser_page.locator("#complete-panel")).to_be_visible(timeout=30_000)
+    expect(browser_page.locator("#complete-summary")).to_contain_text("1 file converted")
+
+
 def test_browser_rejects_non_zip_with_recovery_message(
     browser_page: Page,
     live_server: str,
@@ -125,6 +159,29 @@ def test_browser_rejects_non_zip_with_recovery_message(
     expect(browser_page.locator("#error-message")).to_be_visible()
     expect(browser_page.locator("#error-message")).to_contain_text("ends in .zip")
     expect(browser_page.locator("#ready-panel")).to_be_visible()
+
+
+def test_browser_stops_polling_when_a_job_has_expired(
+    browser_page: Page,
+    live_server: str,
+    tmp_path: Path,
+) -> None:
+    source = write_browser_zip(tmp_path / "expired.zip")
+    browser_page.route(
+        f"{live_server}/api/jobs",
+        lambda route: route.fulfill(
+            status=202,
+            content_type="application/json",
+            body='{"job_id":"expired"}',
+        ),
+    )
+    browser_page.goto(live_server)
+
+    browser_page.set_input_files("#archive-input", source)
+
+    expect(browser_page.locator("#failure-panel")).to_be_visible(timeout=2_000)
+    expect(browser_page.locator("#failure-message")).to_contain_text("expired")
+    expect(browser_page.locator("#retry-button")).to_be_visible()
 
 
 def test_browser_is_keyboard_focusable_and_has_no_mobile_overflow(
