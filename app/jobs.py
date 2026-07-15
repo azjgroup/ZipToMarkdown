@@ -160,12 +160,17 @@ class JobStore:
             job = self.get(job_id, touch=False)
             if job.status in ACTIVE_STATUSES and not allow_active:
                 raise JobBusy(job_id)
+            previous_status = job.status
             job.status = JobStatus.DELETING
             root = job.root
         try:
             shutil.rmtree(root)
         except FileNotFoundError:
             pass
-        finally:
+        except OSError:
             with self._lock:
-                self._jobs.pop(job_id, None)
+                if job_id in self._jobs:
+                    self._jobs[job_id].status = previous_status
+            raise
+        with self._lock:
+            self._jobs.pop(job_id, None)
