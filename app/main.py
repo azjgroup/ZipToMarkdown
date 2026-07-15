@@ -7,8 +7,10 @@ from urllib.parse import urlsplit
 from zipfile import is_zipfile
 
 from fastapi import FastAPI, HTTPException, Request, Response, UploadFile
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette.staticfiles import StaticFiles
+from starlette.templating import Jinja2Templates
 
 from app.cleanup import cleanup_loop, clear_startup_workspace
 from app.jobs import JobBusy, JobNotFound, JobStore
@@ -17,6 +19,7 @@ from app.settings import Settings
 
 ProcessorFactory = Callable[[Settings, JobStore], JobProcessor]
 ALLOWED_ORIGIN_HOSTS = {"127.0.0.1", "::1", "localhost", "testserver"}
+APP_DIRECTORY = Path(__file__).resolve().parent
 
 
 def _default_processor(settings: Settings, store: JobStore) -> JobProcessor:
@@ -51,6 +54,12 @@ def create_app(
             processor.shutdown()
 
     application = FastAPI(title="Zip to Markdown", lifespan=lifespan)
+    templates = Jinja2Templates(directory=APP_DIRECTORY / "templates")
+    application.mount(
+        "/static",
+        StaticFiles(directory=APP_DIRECTORY / "static"),
+        name="static",
+    )
     application.add_middleware(
         TrustedHostMiddleware,
         allowed_hosts=["127.0.0.1", "localhost", "testserver", "[::1]"],
@@ -69,6 +78,10 @@ def create_app(
     @application.get("/health")
     async def health() -> dict[str, str]:
         return {"status": "ok"}
+
+    @application.get("/", response_class=HTMLResponse)
+    async def index(request: Request) -> HTMLResponse:
+        return templates.TemplateResponse(request=request, name="index.html")
 
     @application.post("/api/jobs", status_code=202)
     async def create_job(archive: UploadFile) -> dict[str, str]:

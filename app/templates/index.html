@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>Zip to Markdown</title>
+    <link rel="stylesheet" href="/static/app.css">
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to conversion tool</a>
+    <header class="app-bar">
+      <div class="brand" aria-label="Zip to Markdown">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img">
+            <path d="M7 3.75h7.25L19 8.5v11.75H7z"></path>
+            <path d="M14 3.75V9h5M12.95 11.25v5.5m-2.3-2.15 2.3 2.3 2.3-2.3"></path>
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <strong>Zip to Markdown</strong>
+          <small>Powered by Microsoft MarkItDown</small>
+        </span>
+      </div>
+      <div class="local-pill"><span aria-hidden="true"></span>100% local</div>
+    </header>
+
+    <main id="main-content" class="app-main">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Private document conversion</p>
+        <h1 id="page-title">Turn a ZIP into clean Markdown</h1>
+        <p>
+          Drop an archive below. The app unpacks it, converts supported files, and
+          prepares one Markdown-only download.
+        </p>
+      </section>
+
+      <section class="workflow-card" aria-label="ZIP conversion">
+        <div id="ready-panel" class="workflow-panel">
+          <input
+            id="archive-input"
+            class="visually-hidden"
+            type="file"
+            accept=".zip,application/zip"
+            aria-describedby="archive-help"
+          >
+          <div id="drop-zone" class="drop-zone">
+            <span class="upload-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4.75 16.25v2.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-2.5"></path>
+                <path d="M8.25 9.25 12 5.5l3.75 3.75M12 5.75v10"></path>
+              </svg>
+            </span>
+            <strong>Drop your ZIP file here</strong>
+            <span id="archive-help">Up to 1 GB · Files never leave this Mac</span>
+            <button id="choose-button" class="button button-primary" type="button">Choose ZIP</button>
+          </div>
+        </div>
+
+        <section id="upload-panel" class="workflow-panel progress-panel" hidden>
+          <div class="stage-heading">
+            <div>
+              <p class="stage-label">Uploading</p>
+              <h2 id="upload-filename">Preparing archive</h2>
+            </div>
+            <strong id="upload-percent" class="percent">0%</strong>
+          </div>
+          <progress id="upload-progress" max="1" value="0">0%</progress>
+          <p class="stage-help">Copying the ZIP into a private temporary folder on this Mac.</p>
+        </section>
+
+        <section
+          id="conversion-panel"
+          class="workflow-panel progress-panel"
+          aria-live="polite"
+          hidden
+        >
+          <div class="stage-heading">
+            <div>
+              <p id="conversion-stage" class="stage-label">Queued</p>
+              <h2 id="conversion-filename">Waiting to begin</h2>
+            </div>
+            <strong id="conversion-percent" class="percent">0%</strong>
+          </div>
+          <progress id="conversion-progress" max="1" value="0">0%</progress>
+          <div class="stats" aria-label="Conversion totals">
+            <div class="stat"><strong id="converted-count">0</strong><span>Converted</span></div>
+            <div class="stat"><strong id="skipped-count">0</strong><span>Skipped</span></div>
+            <div class="stat"><strong id="failed-count">0</strong><span>Failed</span></div>
+          </div>
+          <p id="empty-count" class="empty-note" hidden></p>
+          <p id="polling-note" class="stage-help" hidden></p>
+        </section>
+
+        <section id="complete-panel" class="workflow-panel result-panel" aria-live="polite" hidden>
+          <span class="result-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="m6.75 12.25 3.25 3.2 7.25-7.2"></path></svg>
+          </span>
+          <p class="stage-label">Conversion complete</p>
+          <h2>Your Markdown files are ready</h2>
+          <p id="complete-summary" class="result-summary"></p>
+          <p id="issues-notice" class="issues-notice" hidden>
+            The download includes a conversion report explaining skipped or failed files.
+          </p>
+          <div class="result-actions">
+            <a id="download-button" class="button button-primary" href="#">Download Markdown ZIP</a>
+            <button id="delete-button" class="button button-secondary" type="button">Delete files</button>
+          </div>
+          <p class="expiry-note">Temporary files are deleted automatically after one hour.</p>
+        </section>
+
+        <section id="failure-panel" class="workflow-panel result-panel" aria-live="assertive" hidden>
+          <span class="result-mark result-mark-error" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 7.5v5.25M12 16.5h.01"></path></svg>
+          </span>
+          <p class="stage-label stage-label-error">Conversion stopped</p>
+          <h2>That ZIP could not be completed</h2>
+          <p id="failure-message" class="result-summary"></p>
+          <button id="retry-button" class="button button-primary" type="button">Try another ZIP</button>
+        </section>
+
+        <p id="error-message" class="inline-error" role="alert" hidden></p>
+      </section>
+
+      <p class="privacy-note">
+        Processing happens locally. Temporary uploads, extracted files, and results are
+        removed when you delete them, after one hour, or when the app restarts.
+      </p>
+      <noscript><p class="inline-error">JavaScript is required to run this local app.</p></noscript>
+    </main>
+  </body>
+</html>
