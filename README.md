@@ -1,5 +1,9 @@
 # Zip to Markdown
 
+[![CI](https://github.com/azjgroup/ZipToMarkdown/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/azjgroup/ZipToMarkdown/actions/workflows/ci.yml)
+[![Python 3.10–3.13](https://img.shields.io/badge/Python-3.10%E2%80%933.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![MIT licence](https://img.shields.io/badge/Licence-MIT-green.svg)](LICENSE)
+
 Zip to Markdown is a small, local Mac app that accepts a ZIP archive, safely unpacks it, converts its files with [Microsoft MarkItDown](https://github.com/microsoft/markitdown), and gives you a new ZIP containing only Markdown files.
 
 Files are processed on your Mac. There is no account, cloud upload, analytics service, or external conversion API.
@@ -7,7 +11,7 @@ Files are processed on your Mac. There is no account, cloud upload, analytics se
 ## Quick start on a Mac
 
 1. Install Python 3.10–3.13 if needed. Python 3.12 is recommended and is available from [python.org](https://www.python.org/downloads/macos/) or Homebrew with `brew install python@3.12`.
-2. Download the complete project folder, or clone this repository after it is published to GitHub.
+2. Download a source archive from [Releases](https://github.com/azjgroup/ZipToMarkdown/releases), or clone this repository with `git clone https://github.com/azjgroup/ZipToMarkdown.git`.
 3. Open the folder and double-click **Start App.command**.
 4. On the first launch, macOS may ask for confirmation. Control-click **Start App.command**, choose **Open**, then choose **Open** again.
 5. Drop a `.zip` file onto the page, wait for conversion, then choose **Download Markdown ZIP**.
@@ -104,5 +108,16 @@ python3.12 -m venv .venv
 .venv/bin/ruff check app tests
 .venv/bin/ruff format --check app tests
 ```
+
+Contributions are welcome. Read the organisation-wide
+[contribution guide](https://github.com/azjgroup/.github/blob/main/CONTRIBUTING.md)
+and use the issue templates before starting a substantial change.
+
+## Project policies
+
+- [Changelog](CHANGELOG.md)
+- [Security policy](https://github.com/azjgroup/.github/blob/main/SECURITY.md)
+- [Support](https://github.com/azjgroup/.github/blob/main/SUPPORT.md)
+- [Code of conduct](https://github.com/azjgroup/.github/blob/main/CODE_OF_CONDUCT.md)
 
 The app is MIT licensed. See [LICENSE](LICENSE).
