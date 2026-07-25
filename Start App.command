@@ -17,18 +17,12 @@ PYTHON_CANDIDATES=(
   "${ZIP_TO_MARKDOWN_PYTHON:-}"
   "/opt/homebrew/bin/python3.13"
   "/opt/homebrew/bin/python3.12"
-  "/opt/homebrew/bin/python3.11"
-  "/opt/homebrew/bin/python3.10"
   "/usr/local/bin/python3.13"
   "/usr/local/bin/python3.12"
-  "/usr/local/bin/python3.11"
-  "/usr/local/bin/python3.10"
   "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3.13"
   "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12"
   "python3.13"
   "python3.12"
-  "python3.11"
-  "python3.10"
   "python3"
 )
 
@@ -43,7 +37,7 @@ for candidate in "${PYTHON_CANDIDATES[@]}"; do
     [[ -n "$resolved" ]] || continue
   fi
   if "$resolved" -c \
-    'import sys; raise SystemExit(not (sys.version_info >= (3, 10) and sys.version_info < (3, 14)))' \
+    'import sys; raise SystemExit(not (sys.version_info >= (3, 12) and sys.version_info < (3, 14)))' \
     >/dev/null 2>&1; then
     PYTHON_BIN="$resolved"
     break
@@ -52,12 +46,12 @@ done
 
 if [[ -z "$PYTHON_BIN" ]]; then
   fail_and_pause \
-    "Python 3.10–3.13 is required. Install Python 3.12 from https://www.python.org/downloads/macos/ and try again."
+    "Python 3.12–3.13 is required. Install Python 3.12 from https://www.python.org/downloads/macos/ and try again."
 fi
 
 VENV="$ROOT/.venv"
 if [[ -x "$VENV/bin/python" ]] && ! "$VENV/bin/python" -c \
-  'import sys; raise SystemExit(not (sys.version_info >= (3, 10) and sys.version_info < (3, 14)))' \
+  'import sys; raise SystemExit(not (sys.version_info >= (3, 12) and sys.version_info < (3, 14)))' \
   >/dev/null 2>&1; then
   print "Refreshing an incompatible local environment…"
   /bin/rm -rf "$VENV"

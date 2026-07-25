@@ -14,7 +14,7 @@ def test_launcher_selects_a_supported_python_and_handles_homebrew() -> None:
     script = Path("Start App.command").read_text(encoding="utf-8")
     assert "python3.12" in script
     assert "/opt/homebrew/bin" in script
-    assert "sys.version_info >= (3, 10)" in script
+    assert "sys.version_info >= (3, 12)" in script
     assert "sys.version_info < (3, 14)" in script
 
 

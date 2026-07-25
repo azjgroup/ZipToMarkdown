@@ -1,7 +1,7 @@
 # Zip to Markdown
 
 [![CI](https://github.com/azjgroup/ZipToMarkdown/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/azjgroup/ZipToMarkdown/actions/workflows/ci.yml)
-[![Python 3.10–3.13](https://img.shields.io/badge/Python-3.10%E2%80%933.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Python 3.12–3.13](https://img.shields.io/badge/Python-3.12%E2%80%933.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![MIT licence](https://img.shields.io/badge/Licence-MIT-green.svg)](LICENSE)
 
 Zip to Markdown is a small, local Mac app that accepts a ZIP archive, safely unpacks it, converts its files with [Microsoft MarkItDown](https://github.com/microsoft/markitdown), and gives you a new ZIP containing only Markdown files.
@@ -10,7 +10,7 @@ Files are processed on your Mac. There is no account, cloud upload, analytics se
 
 ## Quick start on a Mac
 
-1. Install Python 3.10–3.13 if needed. Python 3.12 is recommended and is available from [python.org](https://www.python.org/downloads/macos/) or Homebrew with `brew install python@3.12`.
+1. Install Python 3.12 or 3.13 if needed. Python 3.12 is recommended and is available from [python.org](https://www.python.org/downloads/macos/) or Homebrew with `brew install python@3.12`.
 2. Download a source archive from [Releases](https://github.com/azjgroup/ZipToMarkdown/releases), or clone this repository with `git clone https://github.com/azjgroup/ZipToMarkdown.git`.
 3. Open the folder and double-click **Start App.command**.
 4. On the first launch, macOS may ask for confirmation. Control-click **Start App.command**, choose **Open**, then choose **Open** again.
@@ -82,7 +82,7 @@ Control-click **Start App.command**, choose **Open**, then confirm **Open**. Thi
 
 **The launcher says Python is missing**
 
-Install Python 3.12 from python.org, close the terminal window, and double-click the launcher again. Python 3.14 is not currently used because the pinned conversion stack targets 3.10–3.13.
+Install Python 3.12 from python.org, close the terminal window, and double-click the launcher again. Python 3.14 is not currently used because the pinned conversion stack targets Python 3.12–3.13.
 
 **Installation fails on first launch**
 

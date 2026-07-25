@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -34,7 +34,7 @@ def test_job_snapshot_tracks_monotonic_progress(tmp_path: Path) -> None:
 
 
 def test_expired_jobs_are_selected_by_last_access(tmp_path: Path) -> None:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     store = JobStore(tmp_path, clock=lambda: now)
     job = store.create("old.zip")
     store.set_status(job.id, JobStatus.FAILED, error="failed")
@@ -44,7 +44,7 @@ def test_expired_jobs_are_selected_by_last_access(tmp_path: Path) -> None:
 
 
 def test_active_jobs_do_not_expire(tmp_path: Path) -> None:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     store = JobStore(tmp_path, clock=lambda: now)
     job = store.create("active.zip")
     store.set_last_access(job.id, now - timedelta(seconds=3601))

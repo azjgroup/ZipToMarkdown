@@ -1,5 +1,5 @@
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
 
@@ -29,7 +29,7 @@ def write_conversion_report(
         "# Conversion report",
         "",
         f"- Archive: `{_inline(original_name)}`",
-        f"- Completed: {datetime.now(timezone.utc).isoformat()}",
+        f"- Completed: {datetime.now(UTC).isoformat()}",
         f"- Converted: {converted_count}",
         f"- Skipped: {skipped_count}",
         f"- Failed: {failed_count}",

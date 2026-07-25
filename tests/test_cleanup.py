@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -23,7 +23,7 @@ def test_startup_cleanup_removes_children_and_preserves_root(tmp_path: Path) -> 
 
 
 def test_expiry_cleanup_deletes_only_expired_terminal_jobs(tmp_path: Path) -> None:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     store = JobStore(tmp_path / "jobs", clock=lambda: now)
     expired = store.create("expired.zip")
     current = store.create("current.zip")
@@ -45,7 +45,7 @@ def test_expiry_cleanup_keeps_failed_removal_available_for_retry(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     store = JobStore(tmp_path / "jobs", clock=lambda: now)
     job = store.create("retry.zip")
     store.set_status(job.id, JobStatus.FAILED, error="failed")
