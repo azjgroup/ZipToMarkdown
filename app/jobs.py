@@ -1,6 +1,6 @@
 import shutil
 from collections.abc import Callable
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from threading import RLock
 from uuid import uuid4
@@ -30,7 +30,7 @@ class JobStore:
     def __init__(self, root: Path, clock: Clock | None = None) -> None:
         self.root = root
         self.root.mkdir(parents=True, exist_ok=True)
-        self._clock = clock or (lambda: datetime.now(timezone.utc))
+        self._clock = clock or (lambda: datetime.now(UTC))
         self._jobs: dict[str, Job] = {}
         self._lock = RLock()
 

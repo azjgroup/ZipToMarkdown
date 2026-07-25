@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum
 from pathlib import Path
 
@@ -39,5 +39,5 @@ class Job:
     issues: list[ConversionIssue] = field(default_factory=list)
     result_path: Path | None = None
     error: str | None = None
-    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    last_accessed_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
+    last_accessed_at: datetime = field(default_factory=lambda: datetime.now(UTC))
